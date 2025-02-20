@@ -1,0 +1,107 @@
+body{
+    font-family: "Bowlby One SC", serif !important;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #16abdc !important;
+    color: white !important;
+}
+/*index*/
+/*prueba selector*/
+.claro{
+    background: rgb(131,58,180);
+    color: black !important;
+}
+.oscuro{
+    background-color: rgb(68, 68, 68) !important;
+    color: white;
+}
+.modo{
+    width: 40px;
+}
+button{
+    background: none;
+    border: none;
+    }
+.contenedortit{
+padding: 2%;
+}
+.tit{
+    background-color: rgb(14, 27, 44);
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+}
+/*login*/
+.log{
+    display: block;
+    margin: 0 auto;
+    background-color: rgb(0, 7, 44);
+    color: white;
+    width: 40%;
+    margin-top: 6%;
+    text-align: center;
+    border-radius: 20px;
+}
+.abajo{
+    display: flex;
+    flex-direction: column;
+}
+.label{
+}
+.label1{
+    margin-top: 10px;
+}
+input{
+    border-radius: 10px;
+    border: none;
+}
+.aceptar{
+    background-color: #16abdc;
+    color: white;
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.registro{
+    margin-top: 20px;
+}
+/*JUEGO**********/
+.titjuego{
+    background-color: rgb(14, 27, 44);
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+/*columnas*/
+.juego{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.opciones{
+display: flex;
+justify-content: center;
+}
+.puntos{
+background-color: aqua;
+    width: 100%;
+}
+.chat{
+    background-color: antiquewhite;
+    width: 100%;
+}
+#tablero{
+    border: solid 2px red;
+    background-color: white;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LOG</title>
+        <link rel="stylesheet" href="estilo.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+<body>
+    <div class="contenedortit">
+        <h1 class="tit">PINTURILLO</h1>
+    </div>
+    <div class="log">
+        <div class="arriba">
+          <img src="fotos/logo.jpg" alt="" class="logo">
+        </div>
+        <div class="abajo">
+          <h1 class="h1log">REGISTRO</h1>
+          <hr>
+          <form action="checkcontra.php" method="post">
+            <label for="nombre" ><p class="label">Nombre de usuario</p></label> <br>
+            <input type="text" name="nombre" required><br>
+        
+            <label for="contra1"><p class="label1">Contraseña</p></label><br>
+            <input type="password" name="contra1" required><br>
+        
+            <label for="contra2">REPITE LA CONTRASEñA</label><br>
+            <input type="password" name="contra2" required><br>
+            <p class="registro">¿YA TIENES CUENTA DE USUARIO?</p> 
+            <a href="log.html">INICIAR SESIÓN</a><br>
+            <button type="submit" class="aceptar">ACEPTAR</button>
+        </form>
+        
+        </div>
+      </div>
+      <script src="src/jquery.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>
