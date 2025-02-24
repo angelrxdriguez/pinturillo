@@ -26,6 +26,10 @@ $collection = $database->usuarios;
 <body>
     <h1 class="titjuego">PINTURILLO</h1>
     <!-- <button id="selector"><img src="img/sun.png" class="modo" alt=""></button>-->
+    <h1 class="palabra">PALABRA A DIBUJAR</h1>
+    <div class="temporizador">
+        <h1>TIEMPO RESTANTE :</h1><h1 class="tiempo">60s </h1>
+    </div>
     <div class="opciones">
     <label for="colorlapiz">ELIGE EL COLOR</label>
     <input type="color" id="colorlapiz" name="colorlapiz" value="#000000">
@@ -47,8 +51,6 @@ $collection = $database->usuarios;
             </div>
             <div class="chat">
                 <div class="mensaje">
-                    <p>NOMBRE USUARIO> :</p>
-                    <p>mensaje</p>
                 </div>
             </div>
         </div>
