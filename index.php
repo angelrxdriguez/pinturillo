@@ -38,16 +38,24 @@ $collection = $database->usuarios;
 
         <div class="juego">
             <div class="puntos">
-                <p>PUNTOS DE:</p>
+            <h3>RONDAS RESTANTES :</h3>
+            <h3 class="rondas"></h3>
+            <p>PUNTOS DE:</p>
                 <p class="usuario">
                     <?php
                     if (isset($_SESSION['usuario'])) {
                         echo $_SESSION['usuario'];
                     } ?>
                 </p>
+                <p class="puntos"></p>
+                <p class="usuario">
+                    BOT:
+                </p>
+                <p class="puntosbot"></p>
+                <p class="puntos"></p>
             </div>
             <div class="dibujo">
-                <canvas id="tablero" width="900" height="700"></canvas>
+                <canvas id="tablero" width="900" height="630"></canvas>
             </div>
             <div class="chat">
                 <div class="mensaje">

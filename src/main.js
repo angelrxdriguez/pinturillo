@@ -1,92 +1,62 @@
-const canvas = document.getElementById('tablero');
-const ctx = canvas.getContext('2d');
-const colorlapiz = document.getElementById('colorlapiz');
-
-let painting = false;
-let brushColor = '#000000'; // Color por defecto: negro
-
-// Actualiza el color del pincel cuando se selecciona uno nuevo
-colorlapiz.addEventListener('input', (e) => {
-    brushColor = e.target.value;
-});
-
-// Función para iniciar el dibujo
-function startPosition(e) {
-    painting = true;
-    draw(e);
-}
-
-// Función para detener el dibujo
-function endPosition() {
-    painting = false;
-    ctx.beginPath(); // Resetea el camino
-}
-
-// Función para dibujar en el canvas
-function draw(e) {
-    if (!painting) return;
-
-    ctx.lineWidth = 5; // Grosor del pincel
-    ctx.lineCap = 'round'; // Bordes redondeados
-    ctx.strokeStyle = brushColor; // Usa el color seleccionado
-
-    ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-}
-
-// Event Listeners para el dibujo
-canvas.addEventListener('mousedown', startPosition);
-canvas.addEventListener('mouseup', endPosition);
-canvas.addEventListener('mousemove', draw);
-// Función para limpiar todo el canvas
-borrar.addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
 document.addEventListener("DOMContentLoaded", function () {
     let palabras = [];
-    let palabraDibujar = ""; 
-    let intervaloPalabras; 
-    let tiempoRestante = 60; 
+    let palabraDibujar = "";
+    let intervaloPalabras;
+    let tiempoRestante = 60;
+    let rondas = 3; 
+
+    let puntosUsuario = 0;
+    let puntosBot = 0;
 
     const tiempoElemento = document.querySelector(".tiempo");
     const chat = document.querySelector(".chat");
+    const rondasElemento = document.querySelector(".rondas");
+    const puntosUsuarioElemento = document.querySelector(".puntos");
+    const puntosBotElemento = document.querySelector(".puntosbot");
+    const canvas = document.getElementById("tablero");
+    const ctx = canvas.getContext("2d");
 
-    // Cargar las palabras una sola vez
-    fetch("palabras.json")
-        .then(response => response.json())
-        .then(data => {
-            palabras = data.map(item => item.palabra); 
+    let dibujando = false;
+    let x = 0, y = 0;
 
-            // Seleccionar y eliminar la palabra a dibujar
-            palabraDibujar = palabras[Math.floor(Math.random() * palabras.length)]; 
-            document.querySelector(".palabra").textContent = `PALABRA A DIBUJAR: ${palabraDibujar}`;
+    rondasElemento.textContent = rondas;
+    actualizarPuntos();
+    document.getElementById("borrar").addEventListener("click", limpiarCanvas);
+    function iniciarJuego() {
+        fetch("palabras.json")
+            .then(response => response.json())
+            .then(data => {
+                palabras = data.map(item => item.palabra);
+                palabraDibujar = palabras[Math.floor(Math.random() * palabras.length)];
 
-            // ⏳ Iniciar el temporizador
-            iniciarTemporizador();
+                document.querySelector(".palabra").textContent = `PALABRA A DIBUJAR: ${palabraDibujar}`;
 
-            // 🤖 Iniciar el bot de palabras
-            intervaloPalabras = setInterval(enviarPalabraBot, 400);
-        })
-        .catch(error => console.error("Error cargando las palabras:", error));
+                iniciarTemporizador();
+                activarDibujo();
+                intervaloPalabras = setInterval(enviarPalabraBot, 6000);
+            })
+            .catch(error => console.error("Error cargando las palabras:", error));
+    }
 
-    // Función del temporizador
     function iniciarTemporizador() {
+        tiempoRestante = 60;
         function actualizarTemporizador() {
-            tiempoElemento.textContent = `${tiempoRestante}s`; 
+            tiempoElemento.textContent = `${tiempoRestante}s`;
+
             if (tiempoRestante <= 0) {
                 clearInterval(intervalo);
-                alert("¡Se acabó el tiempo!");
                 clearInterval(intervaloPalabras);
+                alert("SE ACABO EL TIEMPO");
+                puntosUsuario++; 
+                actualizarPuntos();
+                finalizarRonda();
             } else {
-                tiempoRestante--; 
+                tiempoRestante--;
             }
         }
         const intervalo = setInterval(actualizarTemporizador, 1000);
     }
 
-    // Función para enviar palabras del bot
     function enviarPalabraBot() {
         if (palabras.length === 0) {
             clearInterval(intervaloPalabras);
@@ -94,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let indiceAleatorio = Math.floor(Math.random() * palabras.length);
-        let palabraAleatoria = palabras.splice(indiceAleatorio, 1)[0]; // Eliminar la palabra del array
+        let palabraAleatoria = palabras.splice(indiceAleatorio, 1)[0];
 
         let mensajeDiv = document.createElement("div");
         mensajeDiv.classList.add("mensaje");
@@ -103,10 +73,67 @@ document.addEventListener("DOMContentLoaded", function () {
         chat.appendChild(mensajeDiv);
         chat.scrollTop = chat.scrollHeight;
 
-        //Verificar si la palabra coincide con la palabra a dibujar
         if (palabraAleatoria === palabraDibujar) {
-            alert("¡Se ha adivinado la palabra! Fin del juego.");
+            alert("¡El bot ha adivinado la palabra! Fin de la ronda.");
             clearInterval(intervaloPalabras);
+            puntosBot++;  
+            actualizarPuntos();
+            finalizarRonda();
         }
     }
+
+    function finalizarRonda() {
+        rondas--; 
+        rondasElemento.textContent = rondas;
+
+        if (rondas === 0) {
+            window.location.href = "log.html";
+        } else {
+            chat.innerHTML = "";
+            limpiarCanvas();
+            iniciarJuego();
+        }
+    }
+
+    function actualizarPuntos() {
+        puntosUsuarioElemento.textContent = `Puntos: ${puntosUsuario}`;
+        puntosBotElemento.textContent = `Puntos: ${puntosBot}`;
+    }
+
+    function activarDibujo() {
+        canvas.addEventListener("mousedown", empezarDibujo);
+        canvas.addEventListener("mousemove", dibujar);
+        canvas.addEventListener("mouseup", finalizarDibujo);
+        canvas.addEventListener("mouseout", finalizarDibujo);
+    }
+
+    function empezarDibujo(event) {
+        dibujando = true;
+        [x, y] = [event.offsetX, event.offsetY];
+    }
+
+    function dibujar(event) {
+        if (!dibujando) return;
+
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = document.getElementById("colorlapiz").value;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(event.offsetX, event.offsetY);
+        ctx.stroke();
+
+        [x, y] = [event.offsetX, event.offsetY];
+    }
+
+    function finalizarDibujo() {
+        dibujando = false;
+    }
+
+    function limpiarCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    iniciarJuego();
 });
